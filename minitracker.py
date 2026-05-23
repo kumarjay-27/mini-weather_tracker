@@ -167,12 +167,12 @@ def run_pipeline():
     # Stage 0: Make sure the database exists
     setup_database()
 
-    # DELETE OLD DATA
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM weather")
-    conn.commit()
-    conn.close()
+    # # DELETE OLD DATA
+    # conn = sqlite3.connect(DB_FILE)
+    # cursor = conn.cursor()
+    # cursor.execute("DELETE FROM weather")
+    # conn.commit()
+    # conn.close()
 
  
     # Stages 1–3: For each city, Extract → Transform → Load
