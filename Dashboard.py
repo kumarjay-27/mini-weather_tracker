@@ -48,14 +48,22 @@ def load_weather_data():
     conn = sqlite3.connect(DB_FILE)
     
     query = """
-        SELECT city, country, temperature, feels_like, humidity, 
-               description, wind_speed, fetched_at
-        FROM weather
-        WHERE fetched_at = (
-            SELECT MAX(fetched_at) FROM weather WHERE city = weather.city
-        )
-        ORDER BY temperature DESC
-    """
+    SELECT w1.city,
+           w1.country,
+           w1.temperature,
+           w1.feels_like,
+           w1.humidity,
+           w1.description,
+           w1.wind_speed,
+           w1.fetched_at
+    FROM weather w1
+    WHERE w1.fetched_at = (
+        SELECT MAX(w2.fetched_at)
+        FROM weather w2
+        WHERE w2.city = w1.city
+    )
+    ORDER BY w1.temperature DESC
+"""
     
     df = pd.read_sql_query(query, conn)
     conn.close()
@@ -119,7 +127,7 @@ def main():
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        hottest = df.iloc[0]
+        hottest = df.loc[df['temperature'].idxmax()]
         st.metric(
             label="🔥 Hottest City",
             value=f"{hottest['city']}",
@@ -127,7 +135,7 @@ def main():
         )
     
     with col2:
-        coldest = df.iloc[-1]
+        coldest = df.loc[df['temperature'].idxmin()]
         st.metric(
             label="❄️ Coldest City",
             value=f"{coldest['city']}",
