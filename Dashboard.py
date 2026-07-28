@@ -9,8 +9,11 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
-
+from minitracker import setup_database, run_pipeline
 DB_FILE = "weather.db"
+
+# Initialize database and create weather table if needed
+setup_database()
 
 # PAGE CONFIG
 st.set_page_config(
@@ -90,9 +93,13 @@ def main():
     with st.sidebar:
         st.header("⚙️ Controls")
         
-        if st.button("🔄 Refresh Data", use_container_width=True):
-            st.cache_data.clear()
-            st.rerun()
+        if st.button("🌤️ Fetch Latest Weather", use_container_width=True):
+          with st.spinner("Fetching weather data..."):
+           run_pipeline()
+
+          st.cache_data.clear()
+          st.success("Weather data updated successfully!")
+          st.rerun()
         
         st.markdown("---")
         st.markdown("### 📊 Dashboard Info")
@@ -111,8 +118,9 @@ def main():
         df = load_weather_data()
         
         if df.empty:
-            st.warning("⚠️ No weather data found. Run `python mini_weather_tracker.py` first!")
-            return
+           st.warning("⚠️ No weather data available yet.")
+           st.info("Click **🌤️ Fetch Latest Weather** in the sidebar to fetch live weather data.")
+           return
         
     except Exception as e:
         st.error(f"❌ Error loading data: {e}")
