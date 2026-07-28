@@ -159,19 +159,24 @@ weather-tracker/
  
 ---
 
+````markdown
 ## Quick Reference
- 
+
 ```bash
 # Install dependencies
 pip install -r requirements.txt
- 
+
 # Run pipeline (collect data)
 python mini_weather_tracker.py
- 
+
 # Launch dashboard
 streamlit run dashboard.py
- 
-# Deploy to Streamlit Cloud
+````
+
+### 🌐 Live Demo
+
+[Mini Weather Tracker — Live Demo](https://mini-weathertracker.streamlit.app/)
+
 ```
- 
----
+```
+
