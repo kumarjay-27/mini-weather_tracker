@@ -15,7 +15,6 @@ saves it to a local database, prints a report, **and displays an interactive das
 ✅ **Multi-City Tracking** - Monitor weather across multiple cities  
  
 ---
- 
 ## Setup (Quick Start)
  
 ### Step 1 — Install dependencies
